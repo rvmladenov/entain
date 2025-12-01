@@ -1,0 +1,19 @@
+# Dependencies
+node_modules
+
+# Build outputs
+dist
+.angular
+*.js.map
+
+# Coverage
+coverage
+
+# IDE
+.vscode
+.idea
+
+# Misc
+*.log
+package-lock.json
+

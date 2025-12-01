@@ -1,0 +1,22 @@
+.footer-toolbar {
+  font-size: 14px;
+  margin-top: auto; /* Helps push footer to bottom if using flex column layout */
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.footer-links {
+  display: flex;
+  gap: 20px;
+
+  a {
+    color: white;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

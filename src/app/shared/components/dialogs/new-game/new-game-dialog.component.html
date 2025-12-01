@@ -1,0 +1,18 @@
+<h2 mat-dialog-title>New game</h2>
+<mat-dialog-content class="mat-typography">
+  <h3>Please select a difficulty</h3>
+  <form [formGroup]="form">
+    <mat-form-field>
+      <mat-label>Difficulty</mat-label>
+      <mat-select formControlName="difficulty">
+        @for (difficulty of difficulties; track difficulty) {
+        <mat-option [value]="difficulty">{{ difficulty }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button matButton [mat-dialog-close]="form.value.difficulty" cdkFocusInitial>Start Game</button>
+  <button matButton mat-dialog-close>Cancel</button>
+</mat-dialog-actions>

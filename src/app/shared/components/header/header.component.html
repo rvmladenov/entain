@@ -1,0 +1,13 @@
+<mat-toolbar class="bg-transparent">
+  <img src="assets/sudoku.png" alt="Sudoku Logo" class="h-12 mr-4" />
+  <span>Sudoku for Entain Group</span>
+  <span class="example-spacer"></span>
+  @if(router.url === '/game') {
+  <button
+    class="text-sm cursor-pointer px-4 py-2 rounded-md text-white bg-blue-500 hover:bg-indigo-500"
+    (click)="newGame.emit()"
+  >
+    New game
+  </button>
+  }
+</mat-toolbar>

@@ -1,0 +1,92 @@
+<section class="w-fit mx-auto">
+  @defer (when !isLoading()) {
+  <section class="board-container">
+    <div class="'board-info flex justify-between items-center">
+      <p class="text-sm">
+        Difficulty: <span class="italic text-gray-500">{{ difficulty() }}</span>
+      </p>
+      <p class="text-sm">
+        Status: <span class="italic text-gray-500">{{ status() ?? 'playing' }}</span>
+      </p>
+    </div>
+    <form [formGroup]="boardForm" (ngSubmit)="solveBoard()">
+      <div
+        class="board-body rounded-sm border border-gray-300 p-4 flex flex-col w-fit mx-auto"
+        formArrayName="row"
+      >
+        @for (row of boardForm.controls.row.controls; track i + 'row'; let i = $index) {
+        <div [class]="`board-row columns-${row.value.length} flex`" [formArrayName]="i">
+          @for (cell of row.controls; track j + 'cell'; let j = $index) {
+
+          <!-- !!! 
+                Unfortunately the API does not return a real solved board but just a dummy set of data
+                And because of that we CAN NOT compare if the entered number is correct or not
+                An example of marking if the number is correct or not:
+                    [ngClass]="{'border-red-500': cell.value !== null && cell.value !== solvedBoard()?.[i]?.[j]}" 
+            !!! -->
+          <div
+            class="board-cell border border-gray-300 w-10 h-10 text-center text-blue-500"
+            [ngClass]="{ 
+                'text-gray-500': !!initialBoard()[i]?.[j], 
+                'border-r-2 border-dark-900': !!j && (j + 1) % 3 === 0,
+                'border-b-2 border-dark-900': !!i && (i + 1) % 3 === 0, 
+                'text-red-500 text-bold': cell.invalid && cell.touched}"
+            [attr.data-real-value]="j"
+          >
+            <input
+              [readonly]="!!initialBoard()[i]?.[j]"
+              [formControlName]="j"
+              class="w-full h-full text-center p2"
+            />
+          </div>
+          }
+        </div>
+        }
+      </div>
+
+      <div class="actions flex mt-4">
+        <div class="flex-1 flex">
+          <span>
+            <mat-icon class="animate-spin" *ngIf="isLoading()">hourglass_empty</mat-icon>
+          </span>
+          @if(status() !== null) {
+          <span
+            class="text-sm flex items-center gap-2"
+            [ngClass]="{
+              'text-green-500': status() === 'solved',
+              'text-red-500': status() !== 'solved'
+            }"
+          >
+            @if (status() === 'solved') {
+            <mat-icon>check</mat-icon>
+            } @else {
+            <mat-icon>close</mat-icon>
+            }
+            {{ status() }}
+          </span>
+          }
+        </div>
+        <div class="flex-1 flex justify-end">
+          <button
+            [disabled]="isLoading()"
+            type="submit"
+            class="mr-4 cursor-pointer px-4 py-2 rounded-md text-white bg-blue-500 hover:bg-indigo-500"
+          >
+            <span>Solve</span>
+          </button>
+          <button
+            [disabled]="isLoading()"
+            type="button"
+            (click)="validateBoard()"
+            class="cursor-pointer px-4 py-2 rounded-md text-white bg-blue-500 hover:bg-indigo-500"
+          >
+            <span>Validate</span>
+          </button>
+        </div>
+      </div>
+    </form>
+  </section>
+  } @placeholder {
+  <img src="assets/loading.gif" alt="Loading..." />
+  }
+</section>
