@@ -1,15 +1,31 @@
-import { createServer } from 'http';
-import { Server } from 'socket.io';
+const express = require('express');
+const http = require('http');
+const { Server } = require('socket.io');
+import { Message } from './shared/interfaces/types';
 
-const httpServer = createServer();
-const io = new Server(httpServer, {
-  cors: {
-    origin: true,
-  },
+const app = express();
+const server = http.createServer(app);
+const io = new Server(server, {
+  cors: { origin: '*' }, // Allow CORS for development
 });
 
 io.on('connection', (socket) => {
-  // TODO: updates the user's board
+  console.log('A user connected:', socket.id);
+
+  // Informs that the user has connected
+  io.emit('userConnected', { userId: socket.id });
+
+  // Listening for messages from the client and broadcasting them to all clients
+  socket.on('message', (msg: Message) => {
+    io.emit('message', { userId: msg.username, difficulty: msg.difficulty, gameId: msg.gameId });
+  });
+
+  socket.on('disconnect', (reason: string) => {
+    console.log('User disconnected:', socket.id, reason);
+    io.emit('userDisconnected', socket.id);
+  });
 });
 
-httpServer.listen(9000);
+server.listen(9000, () => {
+  console.log('Socket.IO server running on http://localhost:9000');
+});

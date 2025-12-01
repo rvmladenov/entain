@@ -1,0 +1,61 @@
+<h2 mat-dialog-title>New game</h2>
+<mat-dialog-content class="mat-typography">
+  <h3>Please select a game</h3>
+
+  <mat-tab-group>
+    <mat-tab label="Create game">
+      <form [formGroup]="newGameform" class="flex flex-col gap-4 w-full max-w-md mx-auto mt-4">
+        <mat-form-field>
+          <mat-label>Difficulty</mat-label>
+          <mat-select formControlName="difficulty">
+            @for (difficulty of difficulties; track difficulty) {
+            <mat-option [value]="difficulty">{{ difficulty }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Game ID</mat-label>
+          <input matInput formControlName="gameId" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Username</mat-label>
+          <input matInput formControlName="username" />
+        </mat-form-field>
+        <button
+          [disabled]="newGameform.invalid"
+          matButton
+          [mat-dialog-close]="{
+            difficulty: newGameform.value.difficulty,
+            gameId: newGameform.value.gameId
+          }"
+          cdkFocusInitial
+        >
+          Start Game
+        </button>
+      </form>
+    </mat-tab>
+    <mat-tab label="Join game">
+      <form [formGroup]="joinGameform" class="flex flex-col gap-4 w-full max-w-md mx-auto mt-4">
+        <mat-form-field>
+          <mat-label>Game ID</mat-label>
+          <input matInput formControlName="gameId" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Username</mat-label>
+          <input matInput formControlName="username" />
+        </mat-form-field>
+      </form>
+      <button
+        [disabled]="joinGameform.invalid"
+        matButton
+        [mat-dialog-close]="{ gameId: joinGameform.value.gameId }"
+        cdkFocusInitial
+      >
+        Join Game
+      </button>
+    </mat-tab>
+  </mat-tab-group>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button matButton mat-dialog-close>Cancel</button>
+</mat-dialog-actions>

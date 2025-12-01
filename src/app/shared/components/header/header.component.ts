@@ -12,5 +12,6 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent {
   newGame = output();
+  multiplayer = output();
   router = inject(Router);
 }

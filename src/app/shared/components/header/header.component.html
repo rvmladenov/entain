@@ -4,10 +4,16 @@
   <span class="example-spacer"></span>
   @if(router.url === '/game') {
   <button
-    class="text-sm cursor-pointer px-4 py-2 rounded-md text-white bg-blue-500 hover:bg-indigo-500"
+    class="text-sm cursor-pointer px-4 py-2 mr-4 rounded-md text-white bg-blue-500 hover:bg-indigo-500"
     (click)="newGame.emit()"
   >
     New game
+  </button>
+  <button
+    class="text-sm cursor-pointer px-4 py-2 rounded-md text-white bg-blue-500 hover:bg-indigo-500"
+    (click)="multiplayer.emit()"
+  >
+    Multiplayer
   </button>
   }
 </mat-toolbar>
