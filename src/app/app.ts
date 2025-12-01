@@ -8,7 +8,7 @@ import { Difficulty } from './shared/types/board';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { SocketService } from '@shared/services/socket.service';
-import { Message } from '@shared/types/multiplayer';
+import { Message, MultiplayerGameType } from '@shared/types/multiplayer';
 import { BoardActions } from '@store/actions';
 import { MultiplayerDialogComponent } from '@shared/components/dialogs/multiplayer/multiplayer-dialog.component';
 import { NewGameDialogComponent } from '@shared/components/dialogs/new-game/new-game-dialog.component';
@@ -31,17 +31,32 @@ export class App {
 
     dialogRef
       .afterClosed()
-      .subscribe((result: { difficulty: Difficulty; gameId: string; username: string }) => {
-        console.log(`Dialog result: ${result}`);
-        this.socketService?.sendMessage({
-          difficulty: result.difficulty,
-          gameId: result.gameId,
-          username: result.username,
-          message: 'Game started',
-        });
+      .subscribe(
+        (result: {
+          difficulty: Difficulty;
+          gameId: string;
+          username: string;
+          type: MultiplayerGameType;
+        }) => {
+          if (!result) return;
 
-        this.socketService?.onMessage(this.onSocketMessage);
-      });
+          if (result.type === 'new') {
+            this.store.dispatch(BoardActions.loadBoard({ difficulty: result.difficulty }));
+          }
+          const methodToUse = result.type === 'new' ? 'createGame' : 'joinGame';
+
+          this.socketService[methodToUse]({
+            type: result.type,
+            difficulty: result.difficulty,
+            gameId: result.gameId,
+            username: result.username,
+            message: 'Game started',
+          });
+
+          // Subscribes to future messages from the server
+          this.socketService?.onMessage(this.onSocketMessage);
+        }
+      );
   }
 
   onNewGame(): void {

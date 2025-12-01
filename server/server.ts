@@ -20,6 +20,14 @@ io.on('connection', (socket) => {
     io.emit('message', { userId: msg.username, difficulty: msg.difficulty, gameId: msg.gameId });
   });
 
+  socket.on('newGame', (msg: Message) => {
+    io.emit('newGame', { userId: msg.username, difficulty: msg.difficulty, gameId: msg.gameId });
+  });
+
+  socket.on('joinGame', (msg: Message) => {
+    io.emit('joinGame', { userId: msg.username, difficulty: msg.difficulty, gameId: msg.gameId });
+  });
+
   socket.on('disconnect', (reason: string) => {
     console.log('User disconnected:', socket.id, reason);
     io.emit('userDisconnected', socket.id);

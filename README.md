@@ -1,29 +1,17 @@
-# MyApp
+# Entain sudoku app
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.6.
+- This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.6.
+- The tests are generated using Jasmine and Karma
+- FE and BE parts
+  -- FE: Supports single player and partially implemented multiplayer
+  -- BE: Nodejs with Socket IO for creating multiplayer server for realtime user interaction and observation
 
 ## Development server
 
 To start a local development server, run:
 
 ```bash
-ng serve
-```
-
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
+npm run start
 ```
 
 ## Building
@@ -31,29 +19,27 @@ ng generate --help
 To build the project run:
 
 ```bash
-ng build
+npm run build
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## Testing
 
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+To test the project run:
 
 ```bash
-ng test
+npm run test
 ```
 
-## Running end-to-end tests
+Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
 
-For end-to-end (e2e) testing, run:
+## Project information
 
-```bash
-ng e2e
-```
+- Can create single player games, resolve and validate the games
+- !!!! The provided service has NO VALIDATION for the running game. It is just a dummy service that always returns random data so it can NOT REALLY resolve played games. Instead it just returns new RANDOM already solved game which breaks the played board and not create real time validation. Like marking if the number was right or wrong and implement "remaining tries" feature
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+## Tech stack
 
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- Angular v20
+- Nodejs v22
+- Socket.io for socket connection used for the multiplayer game
+- SCSS, Tailwind, Angular Material
